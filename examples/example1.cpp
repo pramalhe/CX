@@ -2,7 +2,7 @@
 #include <set>
 
 int main(void) {
-    // Create a CX which wraps a std::set<K> and initializes it with a new (empty) instance
+    // Create a CX which wraps a std::set<int> and initializes it with a new (empty) instance
     CXMutationWF<std::set<int>> cx {new std::set<int>()};
 
     int key = 33;
