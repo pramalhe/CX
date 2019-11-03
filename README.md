@@ -2,4 +2,4 @@
 
 A Wait-Free Universal Construct for Large Objects
 
-Full source code will be available shortly. For the moment it's only the technical report and an example on how to use the CX universal construct.
+Make any data structure wait-free as long as it has a copy constructor. No annotation needed.
