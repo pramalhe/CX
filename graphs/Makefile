@@ -1,13 +1,9 @@
-CXX = g++-7
+CXX = g++-8
 INCLUDES = -I../
 
 UCDEPS = \
 	../ucs/CRWWPUniversal.hpp \
-	../ucs/CXMutationLF.hpp \
 	../ucs/CXMutationWF.hpp \
-	../ucs/CXMutationBlocking.hpp \
-	../ucs/CXMutationWF3.hpp \
-	../ucs/CXMutationWFAI.hpp \
 	../ucs/CXMutationWFTimed.hpp \
 	../ucs/FlatCombiningCRWWP.hpp \
 	../ucs/FlatCombiningLeftRight.hpp \
