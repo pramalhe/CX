@@ -83,7 +83,6 @@ private:
     };
 
     alignas(128) std::atomic<Combined*> curComb { nullptr };
-    alignas(128) std::atomic<uint64_t> numCopies { 0 };
 
     std::function<R(C*)> sentinelMutation = [](C* c){ return R{}; };
     Node* sentinel = new Node(sentinelMutation, 0);
@@ -190,7 +189,6 @@ public:
         for (int i = 0; i < maxThreads; i++) delete preRetired[i];
         delete[] combs;
         delete sentinel;
-        //std::cout << "numCopies = " << numCopies.load() << "\n";
     }
 
     static std::string className() { return "CXWF-"; }
@@ -239,7 +237,6 @@ public:
                     newComb->rwLock.exclusiveUnlock();
                     return myNode->result.load();
                 }
-                numCopies.fetch_add(1);
                 mn = lcomb->head;
                 // Neither the 'instance' nor the 'head' will change now that we hold the shared lock
                 newComb->updateHead(mn);
