@@ -92,13 +92,13 @@ public:
         if (it == set.end()) {
             it = set.begin();
             while (i < itersize){
-    			CKey key = *it;
-    			if (!itfunc(&key)) return false;
+                CKey key = *it;
+                if (!itfunc(&key)) return false;
                 it++;
                 i++;
             }
         }
-		return true;
+        return true;
     }
 };
 
