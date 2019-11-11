@@ -73,47 +73,33 @@ public:
     }
 
     bool iterateAll(std::function<bool(CKey*)> itfunc) {
-		for (auto it = set.begin(); it != set.end(); ++it) {
-			CKey key = *it;
-			if (!itfunc(&key)) return false;
-		}
-		return true;
+        for (auto it = set.begin(); it != set.end(); ++it) {
+            CKey key = *it;
+            if (!itfunc(&key)) return false;
+        }
+        return true;
     }
 
     bool iterate(std::function<bool(CKey*)> itfunc, uint64_t itersize, CKey beginKey) {
     	auto it = set.lower_bound(beginKey);
     	long i=0;
-    	while(i<itersize && it!=set.end()){
-			CKey key = *it;
-			if (!itfunc(&key)) return false;
-			it++;
-    		i++;
-    	}
-    	if(it==set.end()){
-    		it = set.begin();
-    		while(i<itersize){
+    	while (i < itersize && it != set.end()) {
+            CKey key = *it;
+            if (!itfunc(&key)) return false;
+            it++;
+            i++;
+        }
+        if (it == set.end()) {
+            it = set.begin();
+            while (i < itersize){
     			CKey key = *it;
     			if (!itfunc(&key)) return false;
-    			it++;
-        		i++;
-    		}
-
-    	}
+                it++;
+                i++;
+            }
+        }
 		return true;
     }
-/*
-    bool add(CKey* key) {
-        return set.add(key, 0);
-    }
-
-    bool remove(CKey* key) {
-        return set.remove(key, 0);
-    }
-
-    bool contains(CKey* key) {
-        return set.contains(key, 0);
-    }
-*/
 };
 
 #endif /* _TREE_SET_H_ */
