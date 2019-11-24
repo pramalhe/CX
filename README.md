@@ -10,9 +10,19 @@ To build the benchmarks go into the graphs folder and type make
 	cd graphs/
 	make
 	
-This will generate the following benchmarks in the bin folder
-	
-	
+This will generate the following benchmarks in the bin/ folder:
+
+	bin/q-ll-enq-deq
+	bin/set-ll-1k
+	bin/set-ll-10k
+	bin/set-tree-1k
+	bin/set-tree-10k
+	bin/set-tree-1m
+	bin/set-hash-1k
+	bin/set-hash-1m
+	bin/latency-set
+	bin/set-tree-10k-dedicated
+
 	
 ## Using CX in your code ##
 To use CX and one of the data structures in your own code, you'll need the following files:
@@ -25,3 +35,5 @@ To use CX and one of the data structures in your own code, you'll need the follo
 There is a small example in:
  
 	examples/example1.cpp
+
+
