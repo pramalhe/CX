@@ -1,4 +1,5 @@
 CXX = g++-8
+CXXFLAGS = 
 INCLUDES = -I../
 
 UCDEPS = \
