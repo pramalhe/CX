@@ -16,8 +16,6 @@
 #include "datastructures/waitfree/TurnQueue.hpp"
 #include "common/UCQueue.hpp"
 #include "datastructures/sequential/LinkedListQueue.hpp"
-#include "ucs/FlatCombiningCRWWP.hpp"
-#include "ucs/FlatCombiningLeftRight.hpp"
 #include "ucs/PSimOpt.hpp"
 #include "ucs/CXMutationWF.hpp"
 #include "benchmarks/BenchmarkQueues.hpp"
@@ -46,8 +44,6 @@ int main(void) {
         results[iclass++][ithread] = bench.enqDeq<MichaelScottQueue<UserData>>                                                                  (cNames[iclass], numPairs, numRuns);
         results[iclass++][ithread] = bench.enqDeq<SimQueue<UserData>>                                                                           (cNames[iclass], numPairs, numRuns);
         results[iclass++][ithread] = bench.enqDeq<TurnQueue<UserData>>                                                                          (cNames[iclass], numPairs, numRuns);
-        results[iclass++][ithread] = bench.enqDeq<UCQueue<FlatCombiningCRWWP<LinkedListQueue<UserData>>,LinkedListQueue<UserData>,UserData>>    (cNames[iclass], numPairs, numRuns);
-        results[iclass++][ithread] = bench.enqDeq<UCQueue<FlatCombiningLeftRight<LinkedListQueue<UserData>>,LinkedListQueue<UserData>,UserData>>(cNames[iclass], numPairs, numRuns);
         results[iclass++][ithread] = bench.enqDeq<UCQueue<CXMutationWF<LinkedListQueue<UserData>>,LinkedListQueue<UserData>,UserData>>          (cNames[iclass], numPairs, numRuns);
         // PSim+LinkedListQueue is just too slow to measure
     }

@@ -10,8 +10,6 @@
 
 #include "common/UCSet.hpp"
 #include "datastructures/sequential/TreeSet.hpp"
-#include "ucs/FlatCombiningCRWWP.hpp"
-#include "ucs/FlatCombiningLeftRight.hpp"
 #include "ucs/PSim.hpp"
 #include "ucs/PSimOpt.hpp"
 #include "ucs/CXMutationWF.hpp"
@@ -41,8 +39,6 @@ int main(void) {
         int iclass = 0;
         BenchmarkSetsDedicated bench(nThreads);
         std::cout << "\n----- Sets (Trees)   numElements=" << numElements << "   threads=" << nThreads << "   runs=" << numRuns << "   length=" << testLength.count() << "s -----\n";
-        results[iclass++][ithread] = bench.benchmark<UCSet<FlatCombiningCRWWP<TreeSet<UserData>>,TreeSet<UserData>,UserData>,UserData>    (cNames[iclass], testLength, numRuns, numElements);
-        results[iclass++][ithread] = bench.benchmark<UCSet<FlatCombiningLeftRight<TreeSet<UserData>>,TreeSet<UserData>,UserData>,UserData>(cNames[iclass], testLength, numRuns, numElements);
         results[iclass++][ithread] = bench.benchmark<UCSet<PSim<TreeSet<UserData>>,TreeSet<UserData>,UserData>,UserData>                  (cNames[iclass], testLength, numRuns, numElements);
         results[iclass++][ithread] = bench.benchmark<UCSet<PSimOpt<TreeSet<UserData>>,TreeSet<UserData>,UserData>,UserData>               (cNames[iclass], testLength, numRuns, numElements);
         results[iclass++][ithread] = bench.benchmark<UCSet<CXMutationWF<TreeSet<UserData>>,TreeSet<UserData>,UserData>,UserData>          (cNames[iclass], testLength, numRuns, numElements);

@@ -6,8 +6,6 @@
 //#include "datastructures/lockfree/NatarajanTreeHP.hpp"
 #include "datastructures/lockfree/NatarajanTreeHE.hpp"
 #include "datastructures/sequential/TreeSet.hpp"
-#include "ucs/FlatCombiningCRWWP.hpp"
-#include "ucs/FlatCombiningLeftRight.hpp"
 #include "ucs/PSim.hpp"
 #include "ucs/PSimOpt.hpp"
 #include "ucs/CXMutationWF.hpp"
@@ -40,8 +38,6 @@ int main(void) {
             int iclass = 0;
             BenchmarkSets bench(nThreads);
             std::cout << "\n----- Sets (Trees)   numElements=" << numElements << "   ratio=" << ratio/10. << "%   threads=" << nThreads << "   runs=" << numRuns << "   length=" << testLength.count() << "s -----\n";
-            results[iclass++][ithread][iratio] = bench.benchmark<UCSet<FlatCombiningCRWWP<TreeSet<UserData>>,TreeSet<UserData>,UserData>,UserData>    (cNames[iclass], ratio, testLength, numRuns, numElements, false);
-            results[iclass++][ithread][iratio] = bench.benchmark<UCSet<FlatCombiningLeftRight<TreeSet<UserData>>,TreeSet<UserData>,UserData>,UserData>(cNames[iclass], ratio, testLength, numRuns, numElements, false);
             results[iclass++][ithread][iratio] = bench.benchmark<UCSet<PSim<TreeSet<UserData>>,TreeSet<UserData>,UserData>,UserData>                  (cNames[iclass], ratio, testLength, numRuns, numElements, false);
             results[iclass++][ithread][iratio] = bench.benchmark<UCSet<PSimOpt<TreeSet<UserData>>,TreeSet<UserData>,UserData>,UserData>               (cNames[iclass], ratio, testLength, numRuns, numElements, false);
             results[iclass++][ithread][iratio] = bench.benchmark<UCSet<CXMutationWF<TreeSet<UserData>>,TreeSet<UserData>,UserData>,UserData>          (cNames[iclass], ratio, testLength, numRuns, numElements, false);

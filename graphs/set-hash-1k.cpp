@@ -11,8 +11,6 @@
 #include "common/UCSet.hpp"
 #include "datastructures/lockfree/MagedHarrisHashSetHP.hpp"
 #include "datastructures/sequential/HashSet.hpp"
-#include "ucs/FlatCombiningCRWWP.hpp"
-#include "ucs/FlatCombiningLeftRight.hpp"
 #include "ucs/PSim.hpp"
 #include "ucs/PSimOpt.hpp"
 #include "ucs/CXMutationWF.hpp"
@@ -45,8 +43,6 @@ int main(void) {
             int iclass = 0;
             BenchmarkSets bench(nThreads);
             std::cout << "\n----- Sets (HashSet)   numElements=" << numElements << "   ratio=" << ratio/10. << "%   threads=" << nThreads << "   runs=" << numRuns << "   length=" << testLength.count() << "s -----\n";
-            results[iclass++][ithread][iratio] = bench.benchmark<UCSet<FlatCombiningCRWWP<HashSet<UserData>>,HashSet<UserData>,UserData>,UserData>    (cNames[iclass], ratio, testLength, numRuns, numElements, false);
-            results[iclass++][ithread][iratio] = bench.benchmark<UCSet<FlatCombiningLeftRight<HashSet<UserData>>,HashSet<UserData>,UserData>,UserData>(cNames[iclass], ratio, testLength, numRuns, numElements, false);
             results[iclass++][ithread][iratio] = bench.benchmark<UCSet<PSim<HashSet<UserData>>,HashSet<UserData>,UserData>,UserData>                  (cNames[iclass], ratio, testLength, numRuns, numElements, false);
             results[iclass++][ithread][iratio] = bench.benchmark<UCSet<PSimOpt<HashSet<UserData>>,HashSet<UserData>,UserData>,UserData>               (cNames[iclass], ratio, testLength, numRuns, numElements, false);
             results[iclass++][ithread][iratio] = bench.benchmark<UCSet<CXMutationWF<HashSet<UserData>>,HashSet<UserData>,UserData>,UserData>          (cNames[iclass], ratio, testLength, numRuns, numElements, false);

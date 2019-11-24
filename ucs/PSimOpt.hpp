@@ -14,9 +14,12 @@
 #include <cstdint>
 #include <functional>
 #include <cassert>
+#include <thread>
+#include <chrono>
 
 #include "../common/HazardPointers.hpp"
 
+using namespace std;
 using namespace std::chrono;
 
 /**

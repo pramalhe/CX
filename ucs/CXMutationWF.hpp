@@ -14,6 +14,8 @@
 #include <cstdint>
 #include <functional>
 #include <cassert>
+#include <chrono>
+#include <thread>
 
 #include "../common/CircularArray.hpp"
 #include "../common/HazardPointersCX.hpp"

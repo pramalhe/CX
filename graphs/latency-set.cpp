@@ -6,8 +6,6 @@
 #include "datastructures/lockfree/MagedHarrisLinkedListSetHP.hpp"
 #include "datastructures/lockfree/MagedHarrisLinkedListSetHE.hpp"
 #include "datastructures/sequential/LinkedListSet.hpp"
-#include "ucs/FlatCombiningCRWWP.hpp"
-#include "ucs/FlatCombiningLeftRight.hpp"
 #include "ucs/PSimOpt.hpp"
 #include "ucs/PSim.hpp"
 #include "ucs/CXMutationWF.hpp"
@@ -25,12 +23,6 @@ int main(void) {
     // Reset results
     std::memset(results, 0, sizeof(uint64_t)*EMAX_CLASS*threadList.size());
 
-    for (unsigned ithread = 0; ithread < threadList.size(); ithread++) {
-        auto nThreads = threadList[ithread];
-        BenchmarkLatencySets<UserData> bench(nThreads);
-        std::cout << "\n----- Latency for Sets (Linked-Lists)   numElements=" << numElements << "   threads=" << nThreads << " -----\n";
-        results[0][ithread] = bench.latency<UCSet<FlatCombiningCRWWP<LinkedListSet<UserData>>,LinkedListSet<UserData>,UserData>>    (cNames[0], numElements);
-    }
     for (unsigned ithread = 0; ithread < threadList.size(); ithread++) {
         auto nThreads = threadList[ithread];
         BenchmarkLatencySets<UserData> bench(nThreads);

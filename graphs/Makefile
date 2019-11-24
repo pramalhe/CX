@@ -2,11 +2,8 @@ CXX = g++-8
 CXXFLAGS = -std=c++17 -g -O3 -I../
 
 UCDEPS = \
-	../ucs/CRWWPUniversal.hpp \
 	../ucs/CXMutationWF.hpp \
 	../ucs/CXMutationWFTimed.hpp \
-	../ucs/FlatCombiningCRWWP.hpp \
-	../ucs/FlatCombiningLeftRight.hpp \
 	../ucs/HerlihyUniversal.hpp \
 	../ucs/PSimOpt.hpp \
 	../common/CircularArray.hpp \

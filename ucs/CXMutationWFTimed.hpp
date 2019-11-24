@@ -14,6 +14,7 @@
 #include <cstdint>
 #include <functional>
 #include <cassert>
+#include <thread>
 #include <chrono>
 
 #include "../common/CircularArray.hpp"
