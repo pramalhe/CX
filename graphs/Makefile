@@ -1,6 +1,5 @@
 CXX = g++-8
-CXXFLAGS = 
-INCLUDES = -I../
+CXXFLAGS = -std=c++17 -g -O3 -I../
 
 UCDEPS = \
 	../ucs/CRWWPUniversal.hpp \
@@ -54,62 +53,56 @@ clean:
 # Queues
 #	
 bin/q-ll-enq-deq: q-ll-enq-deq.cpp $(UCDEPS)
-	$(CXX) -std=c++17 -fuse-ld=gold -g -O3 $(INCLUDES) q-ll-enq-deq.cpp -o bin/q-ll-enq-deq -lpthread $(LIBS)
+	$(CXX) $(CXXFLAGS) q-ll-enq-deq.cpp -o bin/q-ll-enq-deq -lpthread $(LIBS)
 	
 bin/q-array-enq-deq: q-array-enq-deq.cpp $(UCDEPS)
-	$(CXX) -std=c++17 -fuse-ld=gold -g -O3 $(INCLUDES) q-array-enq-deq.cpp -o bin/q-array-enq-deq -lpthread	$(LIBS)
+	$(CXX) $(CXXFLAGS) q-array-enq-deq.cpp -o bin/q-array-enq-deq -lpthread	$(LIBS)
 	
 bin/q-ll-burst: q-ll-burst.cpp
-	$(CXX) -std=c++17 -fuse-ld=gold -g -O3 $(INCLUDES) q-ll-burst.cpp -o bin/q-ll-burst -lpthread $(LIBS)
+	$(CXX) $(CXXFLAGS) q-ll-burst.cpp -o bin/q-ll-burst -lpthread $(LIBS)
 
 	
 #
 # Sets
 #	
 bin/set-ll-1k: set-ll-1k.cpp $(UCDEPS) ../benchmarks/BenchmarkSets.hpp
-	$(CXX) -std=c++17 -fuse-ld=gold -g -O3 $(INCLUDES) set-ll-1k.cpp -o bin/set-ll-1k -lpthread $(LIBS)
+	$(CXX) $(CXXFLAGS) set-ll-1k.cpp -o bin/set-ll-1k -lpthread $(LIBS)
 
 bin/set-ll-10k: set-ll-10k.cpp $(UCDEPS) ../benchmarks/BenchmarkSets.hpp
-	$(CXX) -std=c++17 -fuse-ld=gold -g -O3 $(INCLUDES) set-ll-10k.cpp -o bin/set-ll-10k -lpthread $(LIBS)
+	$(CXX) $(CXXFLAGS) set-ll-10k.cpp -o bin/set-ll-10k -lpthread $(LIBS)
 
 bin/set-tree-1k: set-tree-1k.cpp $(UCDEPS) ../benchmarks/BenchmarkSets.hpp
-	$(CXX) -std=c++17 -fuse-ld=gold -g -O3 $(INCLUDES) set-tree-1k.cpp -o bin/set-tree-1k -lpthread $(LIBS)
+	$(CXX) $(CXXFLAGS) set-tree-1k.cpp -o bin/set-tree-1k -lpthread $(LIBS)
 
 bin/set-tree-10k: set-tree-10k.cpp $(UCDEPS) ../benchmarks/BenchmarkSets.hpp
-	$(CXX) -std=c++17 -fuse-ld=gold -g -O3 $(INCLUDES) set-tree-10k.cpp -o bin/set-tree-10k -lpthread $(LIBS)
+	$(CXX) $(CXXFLAGS) set-tree-10k.cpp -o bin/set-tree-10k -lpthread $(LIBS)
 
 bin/set-tree-1m: set-tree-1m.cpp $(UCDEPS) ../benchmarks/BenchmarkSets.hpp
-	$(CXX) -std=c++17 -fuse-ld=gold -g -O3 $(INCLUDES) set-tree-1m.cpp -o bin/set-tree-1m -lpthread $(LIBS)
+	$(CXX) $(CXXFLAGS) set-tree-1m.cpp -o bin/set-tree-1m -lpthread $(LIBS)
 	
 bin/set-treeblocking-1m: set-treeblocking-1m.cpp $(UCDEPS) ../benchmarks/BenchmarkSets.hpp
-	$(CXX) -std=c++17 -fuse-ld=gold -g -O3 $(INCLUDES) set-treeblocking-1m.cpp -o bin/set-treeblocking-1m -lpthread $(LIBS)
+	$(CXX) $(CXXFLAGS) set-treeblocking-1m.cpp -o bin/set-treeblocking-1m -lpthread $(LIBS)
 	
 bin/set-hash-1k: set-hash-1k.cpp $(UCDEPS) ../benchmarks/BenchmarkSets.hpp
-	$(CXX) -std=c++17 -fuse-ld=gold -g -O3 $(INCLUDES) set-hash-1k.cpp -o bin/set-hash-1k -lpthread $(LIBS)
+	$(CXX) $(CXXFLAGS) set-hash-1k.cpp -o bin/set-hash-1k -lpthread $(LIBS)
 
 bin/set-hash-1m: set-hash-1m.cpp $(UCDEPS) ../benchmarks/BenchmarkSets.hpp
-	$(CXX) -std=c++17 -fuse-ld=gold -g -O3 $(INCLUDES) set-hash-1m.cpp -o bin/set-hash-1m -lpthread $(LIBS)
+	$(CXX) $(CXXFLAGS) set-hash-1m.cpp -o bin/set-hash-1m -lpthread $(LIBS)
 
 #
 # Latency
 #
 bin/latency-set: latency-set.cpp $(UCDEPS) ../benchmarks/BenchmarkLatencySets.hpp
-	$(CXX) -std=c++17 -fuse-ld=gold -g -O3 $(INCLUDES) latency-set.cpp -o bin/latency-set -lpthread $(LIBS)
+	$(CXX) $(CXXFLAGS) latency-set.cpp -o bin/latency-set -lpthread $(LIBS)
 
 	
 	
 
-#
-# Maps.. TODO
-#
-bin/set-tree-mix: set-tree-mix.cpp $(UCDEPS) ../benchmarks/BenchmarkMaps.hpp
-	$(CXX) -std=c++14 -fuse-ld=gold -g -O3 $(INCLUDES) set-tree-mix.cpp -o bin/set-tree-mix -lpthread $(LIBS)
-	
 #
 # Dedicated
 #	
 bin/set-tree-10k-dedicated: set-tree-10k-dedicated.cpp $(UCDEPS) ../benchmarks/BenchmarkSetsDedicated.hpp
-	$(CXX) -std=c++17 -fuse-ld=gold -g -O3 $(INCLUDES) set-tree-10k-dedicated.cpp -o bin/set-tree-10k-dedicated -lpthread $(LIBS)
+	$(CXX) $(CXXFLAGS) set-tree-10k-dedicated.cpp -o bin/set-tree-10k-dedicated -lpthread $(LIBS)
 
 
 
