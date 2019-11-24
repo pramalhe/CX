@@ -23,6 +23,7 @@ This will generate the following benchmarks in the bin/ folder:
 	bin/latency-set
 	bin/set-tree-10k-dedicated
 
+Building CX requires a compiler with C++14 support. If you want to build Natarajan's tree then you'll need C++17 support.
 	
 ## Using CX in your code ##
 To use CX and one of the data structures in your own code, you'll need the following files:
