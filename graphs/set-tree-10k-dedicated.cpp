@@ -19,11 +19,11 @@
 
 int main(void) {
     const std::string dataFilename {"data/set-tree-10k-dedicated.txt"};
-    //vector<int> threadList = { 2, 4, 8 };                        // For the laptop
-    vector<int> threadList = { 2, 4, 8, 16, 32, 48, 64 };      // For Cervino
+    vector<int> threadList = { 1, 2, 4, 8 };                        // For the laptop
+    //vector<int> threadList = { 2, 4, 8, 16, 32, 48, 64 };      // For Cervino
     const int numElements = 1000000;                               // Number of keys in the set
     const int numRuns = 1;                                       // 5 runs for the paper
-    const seconds testLength = 20s ;                              // 20s for the paper
+    const seconds testLength = 2s ;                              // 20s for the paper
     const int EMAX_CLASS = 10;
     TwoResults results[EMAX_CLASS][threadList.size()]; // One entry for read-only operations and another entry for update operations
     std::string cNames[EMAX_CLASS];

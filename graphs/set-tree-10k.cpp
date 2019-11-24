@@ -14,12 +14,12 @@
 
 int main(void) {
     const std::string dataFilename {"data/set-tree-10k.txt"};
-    //vector<int> threadList = { 1, 2, 4, 8 };                     // For the laptop
-    vector<int> threadList = { 1, 2, 4, 8, 16, 32, 48, 64, 96 }; // For Cervino
+    vector<int> threadList = { 1, 2, 4, 8 };                     // For the laptop
+    //vector<int> threadList = { 1, 2, 4, 8, 16, 32, 48, 64, 96 }; // For Cervino
     vector<int> ratioList = { 1000, 500, 100, 10, 1, 0 };        // Permil ratio: 100%, 50%, 10%, 1%, 0.1%, 0%
     const int numElements = 10000;                               // Number of keys in the set
     const int numRuns = 1;                                       // 5 runs for the paper
-    const seconds testLength = 20s;                              // 20s for the paper
+    const seconds testLength = 2s;                               // 20s for the paper
     const int EMAX_CLASS = 10;
     uint64_t results[EMAX_CLASS][threadList.size()][ratioList.size()];
     std::string cNames[EMAX_CLASS];

@@ -42,6 +42,17 @@ BINARIES = \
 
 all: $(BINARIES)
 
+run:
+	bin/q-ll-enq-deq
+	bin/set-ll-1k
+	bin/set-ll-10k
+	bin/set-tree-1k
+	bin/set-tree-10k
+	bin/set-tree-1m
+	bin/set-hash-1k
+	bin/set-hash-1m
+	bin/latency-set
+	bin/set-tree-10k-dedicated
 
 clean:
 	rm -f bin/*

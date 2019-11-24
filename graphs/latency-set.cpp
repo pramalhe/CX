@@ -14,7 +14,8 @@
 
 int main(void) {
     const std::string dataFilename {"data/latency-set.txt"};
-    vector<int> threadList = { 1, 2, 4, 8, 16, 32, 48, 64, 96 }; // For Cervino
+    vector<int> threadList = { 1, 2, 4, 8 };
+    //vector<int> threadList = { 1, 2, 4, 8, 16, 32, 48, 64 }; // For Cervino
     const int numElements = 1000;                                  // Number of keys in the set
     const int EMAX_CLASS = 10;
     uint64_t results[EMAX_CLASS][threadList.size()];
