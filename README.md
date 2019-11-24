@@ -37,4 +37,10 @@ There is a small example in:
  
 	examples/example1.cpp
 
+If you want to see the actual of the universal construction, take a look at:
 
+    ucs/CXMutationWF.hpp
+
+An older version of a technical explaning how it works can be found in the main folder:
+
+    CX-TechReport-2018.pdf
