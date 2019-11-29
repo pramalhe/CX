@@ -2,12 +2,9 @@
 #include <fstream>
 #include <cstring>
 
-#include "common/UCSet.hpp"
 #include "common/UCSetBlocking.hpp"
 #include "datastructures/lockfree/NatarajanTreeHE.hpp"
 #include "datastructures/sequential/TreeSet.hpp"
-#include "ucs/FlatCombiningCRWWP.hpp"
-#include "ucs/FlatCombiningLeftRight.hpp"
 #include "ucs/PSim.hpp"
 #include "ucs/PSimOpt.hpp"
 #include "ucs/CXMutationWF.hpp"

@@ -91,10 +91,10 @@ bin/set-tree-1m: set-tree-1m.cpp $(UCDEPS) ../benchmarks/BenchmarkSets.hpp
 	$(CXX) $(CXXFLAGS) set-tree-1m.cpp -o bin/set-tree-1m -lpthread $(LIBS)
 	
 bin/set-treeblocking-1m: set-treeblocking-1m.cpp $(UCDEPS) ../benchmarks/BenchmarkSets.hpp
-	$(CXX) -std=c++17 -fuse-ld=gold -g -O3 -DTREEBLOCKING $(INCLUDES) set-treeblocking-1m.cpp -o bin/set-treeblocking-1m -lpthread $(LIBS)
+	$(CXX) $(CXXFLAGS) -DTREEBLOCKING set-treeblocking-1m.cpp -o bin/set-treeblocking-1m -lpthread $(LIBS)
 	
 bin/set-treeblocking-10m: set-treeblocking-10m.cpp $(UCDEPS) ../benchmarks/BenchmarkSets.hpp
-	$(CXX) -std=c++17 -fuse-ld=gold -g -O3 -DTREEBLOCKING $(INCLUDES) set-treeblocking-10m.cpp -o bin/set-treeblocking-10m -lpthread $(LIBS)
+	$(CXX) $(CXXFLAGS) -DTREEBLOCKING set-treeblocking-10m.cpp -o bin/set-treeblocking-10m -lpthread $(LIBS)
 		
 bin/set-hash-1k: set-hash-1k.cpp $(UCDEPS) ../benchmarks/BenchmarkSets.hpp
 	$(CXX) $(CXXFLAGS) set-hash-1k.cpp -o bin/set-hash-1k -lpthread $(LIBS)
