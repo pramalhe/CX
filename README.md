@@ -10,7 +10,7 @@ To build the benchmarks go into the graphs folder and type make
 	cd graphs/
 	make
 	
-This will generate the following benchmarks in the bin/ folder:
+This will generate the following benchmarks executables in the bin/ folder:
 
 	bin/q-ll-enq-deq
 	bin/set-ll-1k
