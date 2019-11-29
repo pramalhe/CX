@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2018
+ * Copyright 2014-2020
  *   Andreia Correia <andreia.veiga@unine.ch>
  *   Pedro Ramalhete <pramalhe@gmail.com>
  *   Pascal Felber <pascal.felber@unine.ch>
@@ -61,7 +61,7 @@ private:
 
     struct Node {
         std::function<R(C*)>       mutation;
-        std::atomic<R>             result;   // This needs to be (relaxed) atomic because there are write-races on it. TODO: change to void*
+        std::atomic<R>             result;   // This needs to be (relaxed) atomic because there are write-races on it.
         std::atomic<Node*>         next {nullptr};
         std::atomic<uint64_t>      ticket {0};
         std::atomic<int>           refcnt {0};
@@ -75,6 +75,9 @@ private:
         Node*                      head {nullptr};
         C*                         obj {nullptr};
         StrongTryRIRWLock          rwLock {MAX_THREADS};
+        uint64_t                   numLocks {0};
+        uint64_t                   numCopies {0};
+        uint64_t                   pad[16];              // Avoid false sharing
 
         // Helper function to update newComb->head while keeping track of ORCs.
         void updateHead(Node* mn) {
@@ -93,6 +96,8 @@ private:
     std::atomic<Node*> tail {sentinel};
 
     alignas(128) Combined* combs;
+
+    alignas(128) std::atomic<uint64_t> numCopies {0};
 
     // Enqueue requests
     alignas(128) std::atomic<Node*> enqueuers[MAX_THREADS];
@@ -133,7 +138,6 @@ private:
         enqueuers[tid].store(myNode);
         for (int i = 0; i < maxThreads; i++) {
             if (enqueuers[tid].load() == nullptr) {
-                //hp.clear(tid);
                 return; // Some thread did all the steps
             }
             Node* ltail = hp.protectPtr(kHpTail, tail.load(), tid);
@@ -165,7 +169,7 @@ public:
         combs = new Combined[2*maxThreads];
         for (int i = 0; i < maxThreads; i++) enqueuers[i].store(nullptr, std::memory_order_relaxed);
         for (int i = 0; i < maxThreads; i++) preRetired[i] = new CircularArray<Node>(hp,i);
-        // Start with two valid combined instances (0 and 1), [0] is passed from the constructor and [1] is a copy of it
+        // Start with two or 4 valid combined instances.
         combs[0].head = sentinel;
         combs[0].obj = inst;
         combs[1].head = sentinel;
@@ -184,10 +188,23 @@ public:
     }
 
     ~CXMutationWF() {
+    	//printf("numCopies");
+    	for (int i = 0; i < 2*maxThreads; i++) {
+    		if (combs[i].obj == nullptr || combs[i].head == nullptr) continue;
+    		//printf(" %ld",combs[i].numCopies);
+    	}
+    	int count = 0;
+    	//printf("\n");
+    	//printf("numLocks");
         for (int i = 0; i < 2*maxThreads; i++) {
+        	if(combs[i].obj == nullptr) count++;
             if (combs[i].obj == nullptr || combs[i].head == nullptr) continue;
+            //printf(" %ld",combs[i].numLocks);
             delete combs[i].obj;
         }
+        //printf("\n");
+        //std::cout<<"count "<<count<<"\n";
+        //std::cout << "numCopies = " << numCopies.load() << "\n";
         for (int i = 0; i < maxThreads; i++) delete preRetired[i];
         delete[] combs;
         delete sentinel;
@@ -200,12 +217,6 @@ public:
      *
      * Progress Condition: wait-free (bounded by the number of threads)
      *
-     * There are several RW-Locks being held throughout the code. For easier
-     * reading, we indicate the following logical states:
-     * - S: rwlock is being held in Shared mode
-     * - X: rwlock is being held in Exclusive mode
-     * - H: rwlock is being held in Shared mode, and ready for handover
-     * - U: rwlock is not held and Combined instance may now be taken to W
      */
     template<typename F> R applyUpdate(F&& mutativeFunc, const int tid) {
         // Insert our node in the queue
@@ -218,9 +229,10 @@ public:
         for (int i = 0; i < 2*maxThreads; i++) {
             if (combs[i].rwLock.exclusiveTryLock(tid)) {
                 newComb = &combs[i];
+                //newComb->numLocks++;
                 break;
             }
-        } // RWLocks: newComb=X
+        }
         if (newComb == nullptr) {
             std::cout << "ERROR: not enough Combined instances\n";
             assert(false);
@@ -239,10 +251,12 @@ public:
                     newComb->rwLock.exclusiveUnlock();
                     return myNode->result.load();
                 }
+                //numCopies.fetch_add(1);
                 mn = lcomb->head;
                 // Neither the 'instance' nor the 'head' will change now that we hold the shared lock
                 newComb->updateHead(mn);
                 delete newComb->obj;
+                //newComb->numCopies++;
                 newComb->obj = new C(*lcomb->obj);
                 lcomb->rwLock.sharedUnlock(tid);
                 continue;
@@ -254,7 +268,7 @@ public:
             mn = lnext;
         }
         newComb->updateHead(mn);
-        newComb->rwLock.downgrade();  // RWLocks: newComb=H
+        newComb->rwLock.downgrade();
         // Make the mutation visible to other threads by advancing curComb
         for (int i = 0; i < maxThreads; i++) {
             lcomb = curComb.load();
@@ -266,10 +280,10 @@ public:
             }
             Combined* tmp = lcomb;
             if (curComb.compare_exchange_strong(tmp, newComb)){
-                lcomb->rwLock.setReadUnlock(); // RWLocks: lcomb=U
+                lcomb->rwLock.setReadUnlock();
                 // Retire nodes from oldComb->head to newComb->head
                 Node* node = lcomb->head;
-                lcomb->rwLock.sharedUnlock(tid); // RWLocks: lcomb=H
+                lcomb->rwLock.sharedUnlock(tid);
                 while (node != mn) {
                     Node* lnext = node->next.load();
                     preRetired[tid]->add(node);
@@ -278,7 +292,7 @@ public:
                 return myNode->result.load();
             }
             lcomb->rwLock.sharedUnlock(tid);
-        } // RWLocks: newComb=H, lComb=S
+        }
         newComb->rwLock.setReadUnlock();
         return myNode->result.load();
     }
