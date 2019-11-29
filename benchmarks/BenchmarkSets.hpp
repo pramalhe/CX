@@ -8,6 +8,7 @@
 #include <vector>
 #include <algorithm>
 #include <iostream>
+#include <random>
 
 using namespace std;
 using namespace chrono;
@@ -100,11 +101,19 @@ public:
         atomic<bool> quit = { false };
         atomic<bool> startFlag = { false };
         //S* set = (numObjs == 0) ? new S(numThreads) : new S(numThreads, numObjs); //blocking benchmark
-        S* set = (numObjs == 0) ? new S(numThreads) : new S(numThreads);
+        S* set = nullptr;
 
         // Create all the keys in the concurrent set
         K** udarray = new K*[numElements];
-        for (int i = 0; i < numElements; i++) udarray[i] = new K(i);
+        for (int i = 0; i < numElements; i++) {
+			udarray[i] = new K(i);
+		}
+
+        // in order to insert randomly to have a balanced tree
+		std::random_device rd;
+        auto seed = rd();
+        std::mt19937 g(seed);
+        std::shuffle(udarray, udarray + numElements, g);
 
         // Can either be a Reader or a Writer
         auto rw_lambda = [this,&quit,&startFlag,&set,&udarray,&numElements](const int updateRatio, long long *ops, const int tid) {
@@ -137,8 +146,10 @@ public:
         };
 
         for (int irun = 0; irun < numRuns; irun++) {
+        	set = (numObjs == 0) ? new S(numThreads) : new S(numThreads);
             // Add all the items to the list
             set->addAll(udarray, numElements, 0);
+
             if (irun == 0) {
                 className = set->className();
                 std::cout << "##### " << set->className() << " #####  \n";

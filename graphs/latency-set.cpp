@@ -2,7 +2,7 @@
 #include <fstream>
 #include <cstring>
 
-#include "../common/UCSet.hpp"                  // TODO: replace with UCSet, when we have everything using "T key" instead of "T* key"
+#include "../common/UCSet.hpp"
 #include "datastructures/lockfree/MagedHarrisLinkedListSetHP.hpp"
 #include "datastructures/lockfree/MagedHarrisLinkedListSetHE.hpp"
 #include "datastructures/sequential/LinkedListSet.hpp"
