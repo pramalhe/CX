@@ -100,7 +100,7 @@ public:
         long long lengthSec[numRuns];
         atomic<bool> quit = { false };
         atomic<bool> startFlag = { false };
-        //S* set = (numObjs == 0) ? new S(numThreads) : new S(numThreads, numObjs); //blocking benchmark
+
         S* set = nullptr;
 
         // Create all the keys in the concurrent set
@@ -146,13 +146,21 @@ public:
         };
 
         for (int irun = 0; irun < numRuns; irun++) {
-        	set = (numObjs == 0) ? new S(numThreads) : new S(numThreads);
+#ifdef TREEBLOCKING
+        	set = new S(numThreads, numObjs); //blocking benchmark
+#else
+        	set = new S(numThreads);
+#endif
             // Add all the items to the list
             set->addAll(udarray, numElements, 0);
 
             if (irun == 0) {
+#ifdef TREEBLOCKING
+                className = set->className()+"-"+to_string(numObjs);
+#else
                 className = set->className();
-                std::cout << "##### " << set->className() << " #####  \n";
+#endif
+                std::cout << "##### " << className << " #####  \n";
             }
             thread rwThreads[numThreads];
             if (dedicated) {
