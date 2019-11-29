@@ -25,7 +25,7 @@ This will generate the following benchmarks executables in the bin/ folder:
 
 Building CX requires a compiler with C++14 support. If you want to build Natarajan's tree then you'll need C++17 support due to the usage of std::pair.
 
-Still in the graphs/ folder type 'make run'. This will run the relevant benchmarks, saving the results of each in data/<filename>.txt
+Still in the graphs/ folder type 'make run'. This will run the relevant benchmarks, saving the results of each in data/filename.txt
 
 	make run
 
