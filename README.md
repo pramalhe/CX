@@ -22,6 +22,8 @@ This will generate the following benchmarks executables in the bin/ folder:
 	bin/set-hash-1m
 	bin/latency-set
 	bin/set-tree-10k-dedicated
+	bin/set-treeblocking-1m
+	bin/set-treeblocking-10m
 
 Building CX requires a compiler with C++14 support. If you want to build Natarajan's tree then you'll need C++17 support due to the usage of std::pair.
 
