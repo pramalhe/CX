@@ -55,6 +55,8 @@ run:
 	bin/set-hash-1m
 	bin/latency-set
 	bin/set-tree-10k-dedicated
+	bin/set-treeblocking-1m
+	bin/set-treeblocking-10m
 
 clean:
 	rm -f bin/*
